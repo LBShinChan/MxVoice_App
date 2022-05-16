@@ -24,11 +24,13 @@
                  url:'',
 				 tokenId:'',
 				 access_token:'',
+				 username:''
 			}
 		},
 		onLoad() {
             this.UUID = uni.getStorageSync("UUID")
 			this.access_token = uni.getStorageSync("access_token")
+			this.username = uni.getStorageSync("username")
 		},
 		methods: {
 			 login(){
@@ -52,33 +54,46 @@
 						console.log(paras);
 						uni.setStorageSync("UUID",paras[1])
 						this.UUID = uni.getStorageSync("UUID");
+						
+						var urlspilt = res.result.split("?");
+						console.log(urlspilt);
 						 // http://xxxxxxxxxxxxx/tokenId
 						uni.request({
-							url: res.result,
-							method: "GET",
+							url: urlspilt[0],
+							method: "POST",
 							header: {
 									access_token: uni.getStorageSync("access_token")
 									},
-							success: (res) => {
-								console.log(res.data)
-								console.log("执行完条码链接又得到了，once_token")
-								uni.setStorageSync("once_token",res.data.once_token)
-								this.once_token = uni.getStorageSync("once_token")
-								console.log("print once_token:")
-								console.log(this.once_token)
-								
-								
-								uni.redirectTo({
-									url: "../index/sure_login"
-								});
+							data: {
+								uuid:this.UUID,
+								username: this.username
 							},
-						
+							success: (res) => {
+								
+								if (res.data.code === 200) {
+									console.log(res.data)
+									console.log("执行完条码链接又得到了，once_token")
+									uni.setStorageSync("once_token",res.data.once_token)
+									this.once_token = uni.getStorageSync("once_token")
+									console.log("print once_token:")
+									console.log(this.once_token)
+									
+									
+									uni.redirectTo({
+										url: "../index/sure_login"
+									});
+								}else if (res.data.code === 405){
+									uni.showToast({
+										title: '二维码失效',
+										icon:"none",
+										duration: 2000
+									});
+								}
+							},
 						})
-						 
 						 // void plus.runtime.openWeb(res.result,function(){
 							//  console.log("跳转操作")
 						 // });
-						 
 				     }
 				 });
 			 },

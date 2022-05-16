@@ -7,6 +7,12 @@
 			}
 		},
 		{
+			"path": "pages/index/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
+		{
 			"path": "pages/index/sure_login",
 			"style": {
 				"navigationBarTitleText": "确认登录"

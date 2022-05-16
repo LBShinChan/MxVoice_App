@@ -44,13 +44,13 @@
 							uni.redirectTo({
 								url: "../index/main_show"
 							});
-						}else{
+						}else if (res.data.code === 403){
 							uni.showToast({
-								title: '登录失败',
+								title: '二维码失效',
 								duration: 2000
 							});
 							uni.redirectTo({
-								url: "../index/login"
+								url: "../index/main_show"
 							});
 						}
 				 		

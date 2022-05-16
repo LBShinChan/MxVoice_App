@@ -1,6 +1,21 @@
 <script>
 	export default {
+		data:{
+			clientid:""
+		},
+		
+		methods:{
+			getClientId() {
+				const client = plus.push.getClientInfo();
+				console.log('当前设备ID', client.clientid)
+				uni.setStorageSync('clientid', client.clientid);
+				return client.clientid;
+			}
+		},
+		
 		onLaunch: function() {
+			
+			
 			uni.getStorage({//获得保存在本地的用户信息
 			                key: 'loginMessage',  
 			                success:(res) => {  
@@ -25,7 +40,11 @@
 			                    })  
 			                }  
 			            });
-			console.log('App Launch')
+			console.log('App Launch');
+			this.clientid = this.getClientId()
+			console.log(this.clientid);
+			// uni.setStorageSync("clientid",this.getClientId())
+			console.log("当前设备id"+uni.getStorageSync("clientid"))
 		},
 		onShow: function() {
 			// 配置1秒后自动关闭启动页
