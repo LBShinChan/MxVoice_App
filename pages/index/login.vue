@@ -76,13 +76,19 @@
 							
 						} else if (res.data.code === 404){
 							uni.showToast({
-								title: '用户不存在，请先注册！',
+								title: res.data.msg,
 								icon: "none",
 								duration: 2000
 							});
 						} else if (res.data.code === 403){
 							uni.showToast({
-								title: '密码错误，请重试',
+								title: res.data.msg,
+								icon: "none",
+								duration: 2000
+							});
+						} else if (res.data.code === 405){
+							uni.showToast({
+								title: res.data.msg,
 								icon: "none",
 								duration: 2000
 							});
